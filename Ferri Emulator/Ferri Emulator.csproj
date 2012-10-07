@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E0EEA3D9-C979-4C8C-88A1-D183C67593E0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ferri_Emulator</RootNamespace>
+    <AssemblyName>Ferri Emulator</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\..\Desktop\Main\NHibernate-2.1.2.GA-bin\Required_For_LazyLoading\Castle\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\..\..\Desktop\ZakAmirz-RevEmu-bae46a7\ZakAmirz-RevEmu-bae46a7\bin\Debug\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\..\..\Desktop\ZakAmirz-RevEmu-bae46a7\ZakAmirz-RevEmu-bae46a7\bin\Debug\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="MySQL.Data, Version=6.5.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Desktop\ZakAmirz-RevEmu-bae46a7\ZakAmirz-RevEmu-bae46a7\bin\Debug\MySQL.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\..\Desktop\ZakAmirz-RevEmu-bae46a7\ZakAmirz-RevEmu-bae46a7\bin\Debug\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Connections\RemoteHandler.cs" />
+    <Compile Include="Connections\RemoteNetwork.cs" />
+    <Compile Include="Core\Configuration.cs" />
+    <Compile Include="Core\Logging.cs" />
+    <Compile Include="Database\Mappings\frontpage.cs" />
+    <Compile Include="Database\Mappings\rooms.cs" />
+    <Compile Include="Database\Mappings\users.cs" />
+    <Compile Include="Database\MySQLManager.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="Habbo Hotel\Habbo_Hotel.cs" />
+    <Compile Include="Habbo Hotel\Navigator\Frontpage.cs" />
+    <Compile Include="Habbo Hotel\Rooms\FluentRooms.cs" />
+    <Compile Include="Habbo Hotel\Users\FluentUsers.cs" />
+    <Compile Include="Messages\ClientMessage.cs" />
+    <Compile Include="Messages\Opcodes.cs" />
+    <Compile Include="Messages\PacketHandler.cs" />
+    <Compile Include="Messages\Requests\Catalog.cs" />
+    <Compile Include="Messages\Requests\Handshake.cs" />
+    <Compile Include="Messages\Requests\Navigator.cs" />
+    <Compile Include="Messages\Requests\Others.cs" />
+    <Compile Include="Messages\Requests\Users.cs" />
+    <Compile Include="Messages\ServerMessage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SS\BufferPool.cs" />
+    <Compile Include="SS\Session.cs" />
+    <Compile Include="SS\SocketSystem.cs" />
+    <Compile Include="SS\TPool.cs" />
+    <Compile Include="Utilities\HabboEncoding.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ferri Encryption\Ferri Encryption.csproj">
+      <Project>{864ED25D-6DFF-4CF6-A399-9F5E12DA39AD}</Project>
+      <Name>Ferri Encryption</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
