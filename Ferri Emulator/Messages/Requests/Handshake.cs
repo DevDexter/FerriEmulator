@@ -62,6 +62,8 @@ namespace Ferri_Emulator.Messages.Requests
                 fuseResponse.Append<int>(0);
                 fuseResponse.Send(Session);
 
+                Others.GetCitizenship(Msg, Session);
+
                 fuseResponse.New(Opcodes.OpcodesOut.SendMinimailCount);
                 fuseResponse.Append<int>(1);
                 fuseResponse.Send(Session);

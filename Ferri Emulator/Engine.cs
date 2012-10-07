@@ -74,6 +74,7 @@ namespace Ferri_Emulator
             Network = new SocketSystem();
             Network.Serialize(System.Net.IPAddress.Any, 30000, 15, 10000);
             Remote = new RemoteNetwork(30001);
+            Logging.WriteTagLine("Ready", "Initialized FerriEmulator, ready for connections!");
 
             Console.WriteLine();
 

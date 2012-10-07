@@ -65,6 +65,7 @@ namespace Ferri_Emulator.Messages
             internal const short SendBundleDiscount = 963;
             internal const short SendShopPage = 1323;
             internal const short SendVIPBuyDialog = 3173;
+            internal const short SendCitizenship = 3404;
         }
     }
 }
