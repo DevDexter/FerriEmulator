@@ -73,6 +73,7 @@
     <Compile Include="Habbo Hotel\Rooms\FluentRooms.cs" />
     <Compile Include="Habbo Hotel\Rooms\RoomModel.cs" />
     <Compile Include="Habbo Hotel\Users\FluentUsers.cs" />
+    <Compile Include="Habbo Hotel\Users\RoomUser.cs" />
     <Compile Include="Messages\ClientMessage.cs" />
     <Compile Include="Messages\Opcodes.cs" />
     <Compile Include="Messages\PacketHandler.cs" />

@@ -5,6 +5,7 @@ using System.Text;
 using Ferri.Kernel.Network;
 using Ferri_Emulator.SS;
 using Ferri_Emulator.Habbo_Hotel.Rooms;
+using Ferri_Emulator.Habbo_Hotel.Users;
 
 namespace Ferri_Emulator.Messages.Requests
 {
@@ -111,6 +112,16 @@ namespace Ferri_Emulator.Messages.Requests
 
         public static void GetEndEnterRoom(Message Msg, Session Session)
         {
+            Session.User.RoomUser = new RoomUser()
+            {
+                CoordX = Session.Room.Model.DoorX,
+                CoordY = Session.Room.Model.DoorY,
+                CoordZ = Session.Room.Model.DoorZ,
+                Dance = 0,
+                Effect = 0,
+                Idle = false
+            };
+
             if (Engine.RoomsLoaded.ContainsKey(Session.Room.ID))
             {
                 Engine.RoomsLoaded[Session.Room.ID].Add(Session);
@@ -120,6 +131,83 @@ namespace Ferri_Emulator.Messages.Requests
                 Engine.RoomsLoaded.Add(Session.Room.ID, new List<Session>());
                 Engine.RoomsLoaded[Session.Room.ID].Add(Session);
             }
+
+            fuseResponse.New(Opcodes.OpcodesOut.SendRoomUser);
+            fuseResponse.Append<int>(Engine.RoomsLoaded[Session.Room.ID].Count);
+
+            foreach (var User in Engine.RoomsLoaded[Session.Room.ID])
+            {
+                fuseResponse.Append<int>(User.User.ID);
+                fuseResponse.Append<string>(User.User.Username);
+                fuseResponse.Append<string>(User.User.Motto);
+                fuseResponse.Append<string>(User.User.Figure);
+                fuseResponse.Append<int>(User.User.ID);
+                fuseResponse.Append<int>(User.User.RoomUser.CoordX);
+                fuseResponse.Append<int>(User.User.RoomUser.CoordY);
+                fuseResponse.Append<string>(User.User.RoomUser.CoordZ.ToString());
+                fuseResponse.Append<int>(2);
+                fuseResponse.Append<int>(1);
+                fuseResponse.Append<string>(User.User.Gender);
+                fuseResponse.Append<int>(0);
+                fuseResponse.Append<int>(0);
+                fuseResponse.Append<string>("");
+                fuseResponse.Append<string>("");
+                fuseResponse.Append<int>(0);
+            }
+
+            fuseResponse.Send(Session);
+
+            fuseResponse.New(Opcodes.OpcodesOut.SendRoomUser);
+            fuseResponse.Append<int>(1);
+
+            fuseResponse.Append<int>(Session.User.ID);
+            fuseResponse.Append<string>(Session.User.Username);
+            fuseResponse.Append<string>(Session.User.Motto);
+            fuseResponse.Append<string>(Session.User.Figure);
+            fuseResponse.Append<int>(Session.User.ID);
+            fuseResponse.Append<int>(Session.User.RoomUser.CoordX);
+            fuseResponse.Append<int>(Session.User.RoomUser.CoordY);
+            fuseResponse.Append<string>(Session.User.RoomUser.CoordZ.ToString());
+            fuseResponse.Append<int>(2);
+            fuseResponse.Append<int>(1);
+            fuseResponse.Append<string>(Session.User.Gender);
+            fuseResponse.Append<int>(0);
+            fuseResponse.Append<int>(0);
+            fuseResponse.Append<string>("");
+            fuseResponse.Append<string>("");
+            fuseResponse.Append<int>(0);
+
+            Session.Room.SendData(fuseResponse);
+
+            fuseResponse.New(Opcodes.OpcodesOut.SendUserStatus);
+            fuseResponse.Append<int>(Engine.RoomsLoaded[Session.Room.ID].Count);
+
+            foreach (Session S in Engine.RoomsLoaded[Session.Room.ID])
+            {
+                fuseResponse.Append<int>(S.User.ID);
+                fuseResponse.Append<int>(S.User.RoomUser.CoordX);
+                fuseResponse.Append<int>(S.User.RoomUser.CoordY);
+                fuseResponse.Append<string>(S.User.RoomUser.CoordZ);
+                fuseResponse.Append<int>(2);
+                fuseResponse.Append<int>(2);
+                fuseResponse.Append<string>("//");
+            }
+
+            Session.Room.SendData(fuseResponse);
+
+            fuseResponse.New(Opcodes.OpcodesOut.SendRoomStatus);
+            fuseResponse.Append<bool>(true);
+            fuseResponse.Append<uint>(Session.Room.ID);
+            fuseResponse.Append<bool>(Session.Room.Owner == Session.User.Username);
+            fuseResponse.Send(Session);
+
+            fuseResponse.New(Opcodes.OpcodesOut.SendInRoomDetails);
+            fuseResponse.Append<bool>(true);
+            FluentRooms.Serialize(fuseResponse, Session.Room);
+            fuseResponse.Append<bool>(false);
+            fuseResponse.Append<bool>(false);
+            fuseResponse.Append<bool>(false);
+            fuseResponse.Send(Session);
         }
     }
 }

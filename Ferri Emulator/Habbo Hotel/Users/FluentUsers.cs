@@ -29,7 +29,8 @@ namespace Ferri_Emulator.Habbo_Hotel.Users
                     SsoTicket = SSO,
                     Tags = Row["tags"].ToString(),
                     Pixels = (int)Row["pixels"],
-                    OtherCurrency = (int)Row["othercurrency"]
+                    OtherCurrency = (int)Row["othercurrency"], 
+                    Motto = Row["motto"].ToString()
                 };
 
                 return User;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ferri.Kernel.Network;
 
 namespace Ferri_Emulator.Database.Mappings
 {
@@ -30,5 +31,13 @@ namespace Ferri_Emulator.Database.Mappings
         public virtual bool Allow_Rightsoverride { get; set; }
         public virtual int Floorthickness { get; set; }
         public virtual int Wallthickness { get; set; }
+
+        internal void SendData(Messages.ServerMessage fuseResponse)
+        {
+            foreach (Session Session in Engine.RoomsLoaded[ID])
+            {
+                Session.WriteComposer(fuseResponse);
+            }
+        }
     }
 }

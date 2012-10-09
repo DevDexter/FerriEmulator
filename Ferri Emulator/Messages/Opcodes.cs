@@ -33,6 +33,7 @@ namespace Ferri_Emulator.Messages
             internal const short GetRoomGroupData = 267;
             internal const short GetRoomModelData = 3909;
             internal const short GetEndEnterRoom = 1085;
+            internal const short GetTalentsMeter = 780;
         }
 
         internal struct OpcodesOut
@@ -87,6 +88,11 @@ namespace Ferri_Emulator.Messages
             internal const short SendDoorbellNoAnswer = 354;
             internal const short SendWrongPassword = 565;
             internal const short SendUNK1 = 3888;
+            internal const short SendRoomUser = 3100;
+            internal const short SendUserStatus = 2453;
+            internal const short SendInRoomDetails = 3967;
+            internal const short SendRoomStatus = 1843;
+            internal const short SendRoomExtraDecoration = 3647;
         }
     }
 }

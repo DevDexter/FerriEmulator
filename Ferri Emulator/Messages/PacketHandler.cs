@@ -35,6 +35,8 @@ namespace Ferri_Emulator.Messages
             Packets.Add(Opcodes.OpcodesIn.GetSearchResults, Navigator.SearchedRooms);
             Packets.Add(Opcodes.OpcodesIn.EnterRoom, Rooms.BeginEnterRoom);
             Packets.Add(Opcodes.OpcodesIn.GetRoomModelData, Rooms.GetRoomModeldata);
+            Packets.Add(Opcodes.OpcodesIn.GetEndEnterRoom, Rooms.GetEndEnterRoom);
+            Packets.Add(Opcodes.OpcodesIn.GetTalentsMeter, Others.GetCitizenship);
         }
 
         public void Handle(Message Msg, Session Session)

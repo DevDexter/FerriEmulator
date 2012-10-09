@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ferri_Emulator.Habbo_Hotel.Users;
 
 namespace Ferri_Emulator.Database.Mappings
 {
@@ -19,6 +20,8 @@ namespace Ferri_Emulator.Database.Mappings
         public virtual string SsoTicket { get; set; }
         public virtual int Pixels { get; set; }
         public virtual int OtherCurrency { get; set; }
+        public virtual string Motto { get; set; }
         public List<int> RatedRooms = new List<int>();
+        public virtual RoomUser RoomUser { get; set; }
     }
 }
