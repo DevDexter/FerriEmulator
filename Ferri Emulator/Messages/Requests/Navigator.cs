@@ -6,6 +6,7 @@ using Ferri.Kernel.Network;
 using Ferri_Emulator.SS;
 using Ferri_Emulator.Database.Mappings;
 using Ferri_Emulator.Habbo_Hotel.Rooms;
+using System.Data;
 
 namespace Ferri_Emulator.Messages.Requests
 { 
@@ -62,6 +63,27 @@ namespace Ferri_Emulator.Messages.Requests
             {
                 var Room = (rooms)RoomsEnum.Current;
                 FluentRooms.Serialize(fuseResponse, Room);
+            }
+
+            fuseResponse.Append<bool>(false);
+            fuseResponse.Send(Session);
+        }
+
+        public static void SearchedRooms(Message Msg, Session Session)
+        {
+            string Keywords = Msg.NextString();
+            var Rooms = FluentRooms.GetByQry(Keywords);
+            var All = Rooms.GetEnumerator();
+
+            fuseResponse.New(Opcodes.OpcodesOut.SendRoomDataNavigator);
+            fuseResponse.Append<int>(8);
+            fuseResponse.Append<string>(Keywords);
+            fuseResponse.Append<int>(Rooms.Count);
+
+            while (All.MoveNext())
+            {
+                rooms Row = (rooms)All.Current;
+                FluentRooms.Serialize(fuseResponse, Row);
             }
 
             fuseResponse.Append<bool>(false);

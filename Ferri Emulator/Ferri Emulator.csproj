@@ -71,6 +71,7 @@
     <Compile Include="Habbo Hotel\Habbo_Hotel.cs" />
     <Compile Include="Habbo Hotel\Navigator\Frontpage.cs" />
     <Compile Include="Habbo Hotel\Rooms\FluentRooms.cs" />
+    <Compile Include="Habbo Hotel\Rooms\RoomModel.cs" />
     <Compile Include="Habbo Hotel\Users\FluentUsers.cs" />
     <Compile Include="Messages\ClientMessage.cs" />
     <Compile Include="Messages\Opcodes.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Messages\Requests\Handshake.cs" />
     <Compile Include="Messages\Requests\Navigator.cs" />
     <Compile Include="Messages\Requests\Others.cs" />
+    <Compile Include="Messages\Requests\Rooms.cs" />
     <Compile Include="Messages\Requests\Users.cs" />
     <Compile Include="Messages\ServerMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

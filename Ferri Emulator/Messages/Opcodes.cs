@@ -28,6 +28,11 @@ namespace Ferri_Emulator.Messages
             internal const short GetBundleDiscount = 502;
             internal const short GetShopPage = 2591;
             internal const short GetVIPBuyDialog = 3962;
+            internal const short EnterRoom = 724;
+            internal const short GetSearchResults = 1691;
+            internal const short GetRoomGroupData = 267;
+            internal const short GetRoomModelData = 3909;
+            internal const short GetEndEnterRoom = 1085;
         }
 
         internal struct OpcodesOut
@@ -66,6 +71,22 @@ namespace Ferri_Emulator.Messages
             internal const short SendShopPage = 1323;
             internal const short SendVIPBuyDialog = 3173;
             internal const short SendCitizenship = 3404;
+            internal const short SendAchievementUpdate = 1343;
+            internal const short SendRoomInitialize = 1125;
+            internal const short SendRoomModelInfo = 1618;
+            internal const short SendRoomDecoration = 1841;
+            internal const short SendRoomScore = 129;
+            internal const short SendRoomEventData = 1953;
+            internal const short SendAdsFurni = 1862; // ???
+            internal const short SendRoomGroupBadge = 824;
+            internal const short SendRoomUserRightLevel = 1292;
+            internal const short SendRoomOwnerShip = 303;
+            internal const short SendRoomModeldata = 2658;
+            internal const short SendRoomRelativeModeldata = 3061;
+            internal const short SendUserOutofRoom = 1125;
+            internal const short SendDoorbellNoAnswer = 354;
+            internal const short SendWrongPassword = 565;
+            internal const short SendUNK1 = 3888;
         }
     }
 }

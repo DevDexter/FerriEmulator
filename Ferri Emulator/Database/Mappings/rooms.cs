@@ -7,6 +7,7 @@ namespace Ferri_Emulator.Database.Mappings
 {
     public class rooms
     {
+        public Habbo_Hotel.Rooms.RoomModel Model;
         public virtual uint ID { get; set; }
         public virtual string Caption { get; set; }
         public virtual string Owner { get; set; }

@@ -50,6 +50,86 @@ namespace Ferri_Emulator.Habbo_Hotel.Rooms
             return Rooms;
         }
 
+        public static List<rooms> GetByQry(string Qry)
+        {
+            List<rooms> Rooms = new List<rooms>();
+            DataTable Data = Engine.dbManager.ReadTable("SELECT * FROM rooms WHERE caption LIKE '" + Qry + "'");
+            var RowEnum = Data.Rows.GetEnumerator();
+
+            while (RowEnum.MoveNext())
+            {
+                DataRow Row = (DataRow)RowEnum.Current;
+
+                Rooms.Add(new rooms()
+                {
+                    ID = (uint)Row["id"],
+                    Caption = Row["caption"].ToString(),
+                    Description = Row["description"].ToString(),
+                    Owner = Row["owner"].ToString(),
+                    Category = (int)Row["category"],
+                    Password = Row["password"].ToString(),
+                    Model_Name = Row["model_name"].ToString(),
+                    Floor = Row["floor"].ToString(),
+                    Users_Max = (int)Row["users_max"],
+                    Users_Now = (int)Row["users_now"],
+                    Score = (int)Row["score"],
+                    Tags = Row["tags"].ToString().Split(';'),
+                    State = GetState(Row["state"].ToString()),
+                    Allow_Hidewall = (Row["allow_hidewall"].ToString() == "1"),
+                    Allow_Pets = (Row["allow_pets"].ToString() == "1"),
+                    Allow_Pets_Eat = (Row["allow_pets_eat"].ToString() == "1"),
+                    Allow_Rightsoverride = (Row["allow_rightsoverride"].ToString() == "1"),
+                    Allow_Walkthrough = (Row["allow_walkthrough"].ToString() == "1"),
+                    Floorthickness = (int)Row["floorthickness"],
+                    Wallpaper = Row["wallpaper"].ToString(),
+                    Wallthickness = (int)Row["wallthickness"],
+                    Landscape = Row["landscape"].ToString()
+                });
+            }
+
+            return Rooms;
+        }
+
+        public static List<rooms> GetById(int id)
+        {
+            List<rooms> Rooms = new List<rooms>();
+            DataTable Data = Engine.dbManager.ReadTable("SELECT * FROM rooms WHERE id = '" + id + "'");
+            var RowEnum = Data.Rows.GetEnumerator();
+
+            while (RowEnum.MoveNext())
+            {
+                DataRow Row = (DataRow)RowEnum.Current;
+
+                Rooms.Add(new rooms()
+                {
+                    ID = (uint)Row["id"],
+                    Caption = Row["caption"].ToString(),
+                    Description = Row["description"].ToString(),
+                    Owner = Row["owner"].ToString(),
+                    Category = (int)Row["category"],
+                    Password = Row["password"].ToString(),
+                    Model_Name = Row["model_name"].ToString(),
+                    Floor = Row["floor"].ToString(),
+                    Users_Max = (int)Row["users_max"],
+                    Users_Now = (int)Row["users_now"],
+                    Score = (int)Row["score"],
+                    Tags = Row["tags"].ToString().Split(';'),
+                    State = GetState(Row["state"].ToString()),
+                    Allow_Hidewall = (Row["allow_hidewall"].ToString() == "1"),
+                    Allow_Pets = (Row["allow_pets"].ToString() == "1"),
+                    Allow_Pets_Eat = (Row["allow_pets_eat"].ToString() == "1"),
+                    Allow_Rightsoverride = (Row["allow_rightsoverride"].ToString() == "1"),
+                    Allow_Walkthrough = (Row["allow_walkthrough"].ToString() == "1"),
+                    Floorthickness = (int)Row["floorthickness"],
+                    Wallpaper = Row["wallpaper"].ToString(),
+                    Wallthickness = (int)Row["wallthickness"],
+                    Landscape = Row["landscape"].ToString()
+                });
+            }
+
+            return Rooms;
+        }
+
         private static int GetState(string p)
         {
             switch (p)

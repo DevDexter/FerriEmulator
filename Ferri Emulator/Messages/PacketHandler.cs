@@ -32,6 +32,9 @@ namespace Ferri_Emulator.Messages
             Packets.Add(Opcodes.OpcodesIn.GetBundleDiscount, Catalog.GetBundleDiscount);
             Packets.Add(Opcodes.OpcodesIn.GetShopPage, Catalog.GetShopPage);
             Packets.Add(Opcodes.OpcodesIn.GetVIPBuyDialog, Catalog.GetVIPBuyDialog);
+            Packets.Add(Opcodes.OpcodesIn.GetSearchResults, Navigator.SearchedRooms);
+            Packets.Add(Opcodes.OpcodesIn.EnterRoom, Rooms.BeginEnterRoom);
+            Packets.Add(Opcodes.OpcodesIn.GetRoomModelData, Rooms.GetRoomModeldata);
         }
 
         public void Handle(Message Msg, Session Session)

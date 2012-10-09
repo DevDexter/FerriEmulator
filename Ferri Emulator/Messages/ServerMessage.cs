@@ -51,6 +51,11 @@ namespace Ferri_Emulator.Messages
             AddBytes(new byte[] { (Bool) ? (byte)1 : (byte)0 }, false);
         }
 
+        private void AppendByte(byte b)
+        {
+            AddBytes(new byte[] { b }, false);
+        }
+
         private void AddBytes(byte[] Bytes, bool IsInt)
         {
             if (IsInt)
@@ -107,6 +112,11 @@ namespace Ferri_Emulator.Messages
             {
                 for (int i = 0; i < ((string[])obj).Length; i++)
                     AppendString(((string[])obj)[i]);
+            }
+
+            if (typeof(T) == typeof(byte))
+            {
+                AppendByte((byte)obj);
             }
 
             return this;

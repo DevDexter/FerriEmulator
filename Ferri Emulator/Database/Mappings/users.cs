@@ -19,5 +19,6 @@ namespace Ferri_Emulator.Database.Mappings
         public virtual string SsoTicket { get; set; }
         public virtual int Pixels { get; set; }
         public virtual int OtherCurrency { get; set; }
+        public List<int> RatedRooms = new List<int>();
     }
 }

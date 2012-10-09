@@ -77,18 +77,19 @@ namespace Ferri_Emulator.Messages.Requests
         {
             fuseResponse.New(Opcodes.OpcodesOut.SendCitizenship);
             fuseResponse.Append<string>("citizenship");
-            fuseResponse.Append<int>(5);
+            fuseResponse.Append<int>(0); // amount/level?
+
             fuseResponse.Append<int>(0);
-            fuseResponse.Append<int>(2);
-            fuseResponse.Append<int>(1);
-            fuseResponse.Append<int>(125);
-            fuseResponse.Append<int>(1);
-            fuseResponse.Append<string>("ACH_SafetyQuizGraduate1");
-            fuseResponse.Append<int>(2);
-            fuseResponse.Append<int>(1);
-            fuseResponse.Append<int>(1);
             fuseResponse.Append<int>(0);
             fuseResponse.Append<int>(1);
+            fuseResponse.Append<int>(11);
+            fuseResponse.Append<int>(3);
+            fuseResponse.Append<string>("ACH_SafetyQuizGraduate1"); // first badge mission
+            fuseResponse.Append<int>(2); // is locked
+            fuseResponse.Append<int>(1); // ?
+            fuseResponse.Append<int>(1); // ?
+            fuseResponse.Append<int>(0); // ?
+            fuseResponse.Append<int>(2);
             fuseResponse.Append<string>("A1 KUMIANKKA");
             fuseResponse.Append<int>(0);
             fuseResponse.Append<int>(1);
@@ -121,18 +122,18 @@ namespace Ferri_Emulator.Messages.Requests
             fuseResponse.Append<int>(0);
             fuseResponse.Append<int>(1);
             fuseResponse.Append<string>("A1 KUMIANKKA");
-            fuseResponse.Append<int>(0);
+            fuseResponse.Append<int>(1);
             fuseResponse.Append<int>(2);
             fuseResponse.Append<int>(1);
             fuseResponse.Append<int>(4);
             fuseResponse.Append<int>(145);
             fuseResponse.Append<int>(1);
             fuseResponse.Append<string>("ACH_GuideAdvertisementReader1");
+            fuseResponse.Append<int>(2);
             fuseResponse.Append<int>(1);
-            fuseResponse.Append<int>(0);
             fuseResponse.Append<int>(1);
             fuseResponse.Append<int>(11);
-            fuseResponse.Append<int>(1);
+            fuseResponse.Append<int>(2);
             fuseResponse.Append<string>("ACH_RegistrationDuration1");
             fuseResponse.Append<int>(2);
             fuseResponse.Append<int>(1);

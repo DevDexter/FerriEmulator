@@ -36,6 +36,7 @@ namespace Ferri_Emulator
         internal static BigInteger D = new BigInteger("59AE13E243392E89DED305764BDD9E92E4EAFA67BB6DAC7E1415E8C645B0950BCCD26246FD0D4AF37145AF5FA026C0EC3A94853013EAAE5FF1888360F4F9449EE023762EC195DFF3F30CA0B08B8C947E3859877B5D7DCED5C8715C58B53740B84E11FBC71349A27C31745FCEFEEEA57CFF291099205E230E0C7C27E8E1C0512B", 16);
 
         internal static Dictionary<string, string> BannerTokenValues = new Dictionary<string, string>();
+        internal static Dictionary<uint, List<Session>> RoomsLoaded = new Dictionary<uint, List<Session>>();
 
         internal static string ToReadableString(string s)
         {
