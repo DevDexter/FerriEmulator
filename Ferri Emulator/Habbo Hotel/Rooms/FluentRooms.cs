@@ -43,7 +43,8 @@ namespace Ferri_Emulator.Habbo_Hotel.Rooms
                     Floorthickness = (int)Row["floorthickness"],
                     Wallpaper = Row["wallpaper"].ToString(),
                     Wallthickness = (int)Row["wallthickness"],
-                    Landscape = Row["landscape"].ToString()
+                    Landscape = Row["landscape"].ToString(), 
+                    GroupID = (int)Row["groupid"]
                 });
             }
 
@@ -83,7 +84,8 @@ namespace Ferri_Emulator.Habbo_Hotel.Rooms
                     Floorthickness = (int)Row["floorthickness"],
                     Wallpaper = Row["wallpaper"].ToString(),
                     Wallthickness = (int)Row["wallthickness"],
-                    Landscape = Row["landscape"].ToString()
+                    Landscape = Row["landscape"].ToString(), 
+                    GroupID = (int)Row["groupid"]
                 });
             }
 
@@ -123,7 +125,8 @@ namespace Ferri_Emulator.Habbo_Hotel.Rooms
                     Floorthickness = (int)Row["floorthickness"],
                     Wallpaper = Row["wallpaper"].ToString(),
                     Wallthickness = (int)Row["wallthickness"],
-                    Landscape = Row["landscape"].ToString()
+                    Landscape = Row["landscape"].ToString(),
+                    GroupID = (int)Row["groupid"]
                 });
             }
 
@@ -161,9 +164,23 @@ namespace Ferri_Emulator.Habbo_Hotel.Rooms
             Msg.Append<int>(0);
             Msg.Append<int>(Room.Score);
             Msg.Append<int>(Room.Category);
-            Msg.Append<int>(0);
-            Msg.Append<int>(0);
-            Msg.Append<string>("");
+            Msg.Append<int>(Room.GroupID);
+
+            if (Room.GroupID > 0)
+            {
+                groups group = Engine.GetHabboHotel.getGroups.Groups[Room.GroupID];
+                Msg.Append<string>(group.Name);
+                Msg.Append<string>(group.Badges);
+                Msg.Append<string>("");
+            }
+            else
+            {
+                Msg.Append<string>("");
+                Msg.Append<string>("");
+                Msg.Append<string>("");
+            }
+
+
             Msg.Append<int>(Room.Tags.Length);
             Msg.Append<string[]>(Room.Tags);
             Msg.Append<int>(0);

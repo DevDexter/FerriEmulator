@@ -4,111 +4,134 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using Ferri_Emulator.Messages;
+using Ferri.Kernel.Pathfinding;
 
 namespace Ferri_Emulator.Habbo_Hotel.Rooms
 {
+    public enum SquareState
+    {
+        OPEN = 0,
+        BLOCKED = 1,
+        SEAT = 2
+    }
+
     public class RoomModel
     {
-        internal readonly string Id;
-        internal string RawMap;
+        public string Name;
 
-        internal List<string> Lines;
+        public int DoorX;
+        public int DoorY;
+        public double DoorZ;
+        public int DoorOrientation;
 
-        internal int MaxX = new int();
-        internal int MaxY = new int();
+        public string Heightmap;
 
-        internal int DoorX = new int();
-        internal int DoorY = new int();
-        internal double DoorZ = new double();
-        internal int DoorRot = new int();
+        public int MapSizeX = 0;
+        public int MapSizeY = 0;
 
-        internal RoomModel(string Model, bool SQL = true)
+        public string StaticFurniMap;
+
+        public bool ClubOnly;
+        private List<string> Lines = new List<string>();
+        private string[] tmpHeightmap = new string[9999];
+
+        public Dictionary<string, RoomModel> Models = new Dictionary<string, RoomModel>();
+        public TileState[,] mTileState;
+        public int[,] mFloorHeight;
+        private bool[,] RoomUnit;
+        private sbyte[,] LogicalHeightMap;
+
+        public RoomModel() { }
+
+        public void LoadAll()
         {
-            try
+            var Started = DateTime.Now;
+            var mData = Engine.dbManager.ReadTable("SELECT * FROM system_modeldata");
+
+            foreach (DataRow Data in mData.Rows)
             {
-                if (SQL)
-                {
-                    DataRow Row = Engine.dbManager.ReadRow("SELECT * FROM system_modeldata WHERE name = '" + Model + "'");
+                var Model = new RoomModel((string)Data["name"],
+          (int)Data["door_x"],
+              (int)Data["door_y"],
+              (Double)Data["door_z"],
+              (int)Data["door_direction"],
+              (string)Data["modeldata"],
+              "", false);
 
-                    this.Id = Row["name"].ToString();
-                    this.RawMap = Row["modeldata"].ToString();
-                    this.DoorX = (int)Row["door_x"];
-                    this.DoorY = (int)Row["door_y"];
-                    this.DoorZ = (double)Row["door_z"];
-                    this.DoorRot = (int)Row["door_direction"];
-
-                    Setup();
-                }
-                else
-                {
-                    this.Id = "model_a";
-                    this.RawMap = "xxxxxxxxxxxx" + Convert.ToChar(13) +
-                                  "xxxx00000000" + Convert.ToChar(13) +
-                                  "xxxx00000000" + Convert.ToChar(13) +
-                                  "xxxx00000000" + Convert.ToChar(13) +
-                                   "xxxx00000000" + Convert.ToChar(13) +
-                                   "xxxx00000000" + Convert.ToChar(13) +
-                                   "xxxx00000000" + Convert.ToChar(13) +
-                                   "xxxx00000000" + Convert.ToChar(13) +
-                                   "xxxx00000000" + Convert.ToChar(13) +
-                                   "xxxx00000000" + Convert.ToChar(13) +
-                                   "xxxx00000000" + Convert.ToChar(13) +
-                                   "xxxx00000000" + Convert.ToChar(13) +
-                                   "xxxx00000000" + Convert.ToChar(13) +
-                                   "xxxx00000000" + Convert.ToChar(13) +
-                                   "xxxxxxxxxxxx" + Convert.ToChar(13) +
-                                   "xxxxxxxxxxxx" + Convert.ToChar(13);
-
-                    this.DoorX = 3;
-                    this.DoorY = 5;
-                    this.DoorZ = 0;
-                    this.DoorRot = 2;
-
-                    Setup();
-                }
+                Models.Add(Model.Name, Model);
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+
+            var Expire = (DateTime.Now - Started);
+            Engine.Logging.WriteTagLine("Cache", "Loaded {0} Room Models in {1} s and {2} ms", Models.Count, Expire.Seconds, Expire.Milliseconds);
         }
 
+        public RoomModel(string Name, int DoorX, int DoorY, double DoorZ, int DoorOrientation, string Heightmap, string StaticFurniMap, bool ClubOnly)
+        {
+            this.Name = Name;
+
+            this.DoorX = DoorX;
+            this.DoorY = DoorY;
+            this.DoorZ = DoorZ;
+            this.DoorOrientation = DoorOrientation;
+
+            this.Heightmap = Heightmap.ToLower();
+            this.StaticFurniMap = StaticFurniMap;
+
+            this.ClubOnly = ClubOnly;
+
+            Setup();
+        }
         internal void Setup()
         {
             Lines = new List<string>();
 
-            RawMap = RawMap.Replace(Convert.ToChar(10).ToString(), "");
-            string[] splitRawmap = RawMap.Split("\r\n".ToCharArray());
+            Heightmap = Heightmap.Replace(Convert.ToChar(10).ToString(), "");
+            string[] splitRawmap = Heightmap.Split("\r\n".ToCharArray());
 
             foreach (string s in splitRawmap)
             {
                 Lines.Add(s);
             }
 
-            this.MaxX = Lines[0].Length;
-            this.MaxY = Lines.Count;
+            this.MapSizeX = Lines[0].Length;
+            this.MapSizeY = Lines.Count;
+
+            this.mTileState = new TileState[MapSizeX, MapSizeY];
+            this.mFloorHeight = new int[MapSizeX, MapSizeY];
+
+            for (int y = 0; y < MapSizeY; y++)
+            {
+                for (int x = 0; x < MapSizeX; x++)
+                {
+                    string value = Lines[y][x].ToString().ToLower();
+
+                    mTileState[x, y] = (value == "x" ? TileState.Blocked : TileState.Open);
+                    mFloorHeight[x, y] = (value == "x" ? 0 : int.Parse(value));
+                    RoomUnit = new bool[x, y];
+                    LogicalHeightMap = new sbyte[x, y];
+                }
+            }
         }
 
         internal void SerializeFirst(ServerMessage Message)
         {
-            StringBuilder Build = new StringBuilder();
+            string Build = "";
 
-            for (int y = 0; y < MaxY; y++)
+            foreach (string s in Lines)
             {
-                Build.Append(Lines[y]);
-                Build.Append(Convert.ToChar(13).ToString());
+                Build += (s + Convert.ToChar(13));
             }
 
-            Message.Append<string>(Build.ToString());
+            Message.Append<string>(Build);
         }
 
         internal void SerializeSecond(ServerMessage Message)
         {
-            StringBuilder Build = new StringBuilder();
+            string Build = "";
 
-            for (int y = 0; y < MaxY; y++)
+            for (int y = 0; y < MapSizeY; y++)
             {
-                for (int x = 0; x < MaxX; x++)
+                for (int x = 0; x < MapSizeX; x++)
                 {
                     string Square = Lines[y].Substring(x, 1).Trim().ToLower();
 
@@ -117,13 +140,14 @@ namespace Ferri_Emulator.Habbo_Hotel.Rooms
                         Square = DoorZ.ToString();
                     }
 
-                    Build.Append(Square);
+                    Build += Square;
                 }
 
-                Build.Append(Convert.ToChar(13).ToString());
+                Build += Convert.ToChar(13);
             }
 
-            Message.Append<string>(Build.ToString());
+            string lol = Build.ToString();
+            Message.Append<string>(lol);
         }
     }
 

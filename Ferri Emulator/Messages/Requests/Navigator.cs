@@ -33,7 +33,12 @@ namespace Ferri_Emulator.Messages.Requests
                 {
                     case 1:
                         {
-                            fuseResponse.Append<string>("tag");
+                            fuseResponse.Append<string>(Item.TypeExtraData);
+                            break;
+                        }
+                    case 2:
+                        {
+                            FluentRooms.Serialize(fuseResponse, FluentRooms.GetById(int.Parse(Item.TypeExtraData))[0]);
                             break;
                         }
                     case 4:

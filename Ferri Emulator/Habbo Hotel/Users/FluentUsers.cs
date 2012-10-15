@@ -30,7 +30,41 @@ namespace Ferri_Emulator.Habbo_Hotel.Users
                     Tags = Row["tags"].ToString(),
                     Pixels = (int)Row["pixels"],
                     OtherCurrency = (int)Row["othercurrency"], 
-                    Motto = Row["motto"].ToString()
+                    Motto = Row["motto"].ToString(),
+                    Inventory = new Inventory.Inventory((int)Row["id"]),
+                    favouritegroup = (int)Row["favouritegroup"]
+                };
+
+                return User;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static users GetFromID(int ID)
+        {
+            try
+            {
+                DataRow Row = Engine.dbManager.ReadRow("SELECT * FROM members WHERE id = '" + ID + "'");
+
+                var User = new users()
+                {
+                    ID = ID,
+                    Username = Row["username"].ToString(),
+                    Coins = (int)Row["coins"],
+                    Email = Row["email"].ToString(),
+                    Figure = Row["figure"].ToString(),
+                    Gender = Row["gender"].ToString(),
+                    Online = Row["online"].ToString(),
+                    Respect = (int)Row["respect"],
+                    Tags = Row["tags"].ToString(),
+                    Pixels = (int)Row["pixels"],
+                    OtherCurrency = (int)Row["othercurrency"],
+                    Motto = Row["motto"].ToString(),
+                    Inventory = new Inventory.Inventory((int)Row["id"]),
+                    favouritegroup = (int)Row["favouritegroup"]
                 };
 
                 return User;

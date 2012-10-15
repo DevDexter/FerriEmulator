@@ -34,6 +34,16 @@ namespace Ferri_Emulator.Messages
             internal const short GetRoomModelData = 3909;
             internal const short GetEndEnterRoom = 1085;
             internal const short GetTalentsMeter = 780;
+            internal const short Move = 1555;
+            internal const short GetInventory = 3332;
+            internal const short GetInventoryBadges = 1445;
+            internal const short Talk = 3695;
+            internal const short GetInventoryBots = 3033;
+            internal const short UpdateBadges = 2172;
+            internal const short TurnHeads = 2583;
+            internal const short GetRoomUserBadges = 2699;
+            internal const short GetRoomUserTags = 5;
+            internal const short GetAchievementList = 2170;
         }
 
         internal struct OpcodesOut
@@ -93,6 +103,13 @@ namespace Ferri_Emulator.Messages
             internal const short SendInRoomDetails = 3967;
             internal const short SendRoomStatus = 1843;
             internal const short SendRoomExtraDecoration = 3647;
+            internal const short SendRoomChat = 3958;
+            internal const short SendRoomShout = 2307;
+            internal const short SendRoomWhisper = 284;
+            internal const short SendRoomUserBadges = 2291;
+            internal const short SendBadgeUpdate = 2291;
+            internal const short SendRoomUserTags = 2622;
+            internal const short SendAchievementList = 1430;
         }
     }
 }

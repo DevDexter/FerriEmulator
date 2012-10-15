@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Ferri_Emulator.SS;
 using Ferri.Kernel.Network;
+using Ferri_Emulator.Database.Mappings;
 
 namespace Ferri_Emulator.Messages.Requests
 {
@@ -11,6 +12,9 @@ namespace Ferri_Emulator.Messages.Requests
     {
         public static void CatalogTabs(Message Msg, Session Session)
         {
+            var Categories = (from i in Engine.GetHabboHotel.getCatalogueManager.Pages where i.Value.category_id == 0 select i.Value);
+            var CategoryEnum = Categories.GetEnumerator();
+
             fuseResponse.New(Opcodes.OpcodesOut.SendShopTabs);
             fuseResponse.Append<bool>(true);
             fuseResponse.Append<int>(0);
@@ -18,17 +22,37 @@ namespace Ferri_Emulator.Messages.Requests
             fuseResponse.Append<int>(-1);
             fuseResponse.Append<string>("root");
             fuseResponse.Append<string>("");
-            fuseResponse.Append<int>(1);
+            fuseResponse.Append<int>(Categories.Count());
 
-            fuseResponse.Append<bool>(true);
-            fuseResponse.Append<int>(1);
-            fuseResponse.Append<int>(1);
-            fuseResponse.Append<int>(1);
-            fuseResponse.Append<string>(" front_page");
-            fuseResponse.Append<string>(" Front Page");
-            fuseResponse.Append<int>(0);
+            while (CategoryEnum.MoveNext())
+            {
+                var Page = (catalogpages)CategoryEnum.Current;
+                var SubPages = (from i in Engine.GetHabboHotel.getCatalogueManager.Pages where i.Value.category_id == Page.id select i.Value);
+                var SubPageEnum = SubPages.GetEnumerator();
 
-            fuseResponse.Append<bool>(true);
+                fuseResponse.Append<bool>(Page.is_visible);
+                fuseResponse.Append<int>(Page.style_color);
+                fuseResponse.Append<int>(Page.style_icon);
+                fuseResponse.Append<int>(Page.id);
+                fuseResponse.Append<string>(Page.name.Replace(' ', '_').ToUpper());
+                fuseResponse.Append<string>(Page.name);
+                fuseResponse.Append<int>(SubPages.Count());
+
+                while (SubPageEnum.MoveNext())
+                {
+                    var mPage = (catalogpages)SubPageEnum.Current;
+
+                    fuseResponse.Append<bool>(mPage.is_visible);
+                    fuseResponse.Append<int>(mPage.style_color);
+                    fuseResponse.Append<int>(mPage.style_icon);
+                    fuseResponse.Append<int>(mPage.id);
+                    fuseResponse.Append<string>(mPage.name.Replace(' ', '_').ToUpper());
+                    fuseResponse.Append<string>(mPage.name);
+                    fuseResponse.Append<int>(0);
+                }
+            }
+
+            fuseResponse.Append<bool>(false);
             fuseResponse.Send(Session);
         }
 
@@ -139,27 +163,43 @@ namespace Ferri_Emulator.Messages.Requests
         public static void GetShopPage(Message Msg, Session Session)
         {
             int ID = Msg.NextInt32();
+            var Page = Engine.GetHabboHotel.getCatalogueManager.Pages[ID];
+
+            if (!Page.has_content)
+                return;
 
             fuseResponse.New(Opcodes.OpcodesOut.SendShopPage);
             fuseResponse.Append<int>(ID);
-            fuseResponse.Append<string>("frontpage3");
-            fuseResponse.Append<int>(3);
-            fuseResponse.Append<string>("catalog_frontpage_headline_shop_GENERAL");
-            fuseResponse.Append<string>("Bundles_ts");
-            fuseResponse.Append<string>("frontpage_sms4");
-            fuseResponse.Append<int>(11);
-            fuseResponse.Append<string>("");
-            fuseResponse.Append<string>("");
-            fuseResponse.Append<string>("Ã?stÃ¼ne hopla");
-            fuseResponse.Append<string>("NasÄ±l Habbo Kredisi alÄ±nÄ±r");
-            fuseResponse.Append<string>("KontÃ¶rlÃ¼ Kartlar, Ev Telefonu, Kredi KartÄ±, Cep Telefonu, teklifleri tamamlama ve daha birÃ§ok yÃ¶ntemle Habbo Kredisi alabilirsin!");
-            fuseResponse.Append<string>("Burada bir fiÅ? kodunu bozdur:");
-            fuseResponse.Append<string>("");
-            fuseResponse.Append<string>("");
-            fuseResponse.Append<string>("");
-            fuseResponse.Append<string>("-TÃ¼m seÃ§enekleri ister misin? Buraya tÄ±kla!");
-            fuseResponse.Append<string>("kredi");
-            fuseResponse.Append<int>(0);
+            fuseResponse.Append<string>(Page.layout);
+
+            fuseResponse.Append<int>(Page.layout_images.Split(';').Count());
+            
+            var ImgEnum = Page.layout_images.Split(';').GetEnumerator();
+            
+            while (ImgEnum.MoveNext())
+            {
+                fuseResponse.Append<string>(ImgEnum.Current.ToString());
+            }
+
+            fuseResponse.Append<int>(Page.layout_texts.Split(';').Count());
+
+            var TxtEnum = Page.layout_texts.Split(';').GetEnumerator();
+
+            while (TxtEnum.MoveNext())
+            {
+                fuseResponse.Append<string>(TxtEnum.Current.ToString());
+            }
+
+            var Items = (from i in Engine.GetHabboHotel.getCatalogueManager.Items where i.Value.pageid == Page.id select i.Value);
+            var ItemEnum = Items.GetEnumerator();
+
+            fuseResponse.Append<int>(Items.Count());
+
+            while (ItemEnum.MoveNext())
+            {
+                ((catalogitems)ItemEnum.Current).Serialize(fuseResponse);
+            }
+
             fuseResponse.Append<int>(-1);
             fuseResponse.Append<bool>(false);
             fuseResponse.Send(Session);

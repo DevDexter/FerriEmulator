@@ -37,6 +37,15 @@ namespace Ferri_Emulator.Messages
             Packets.Add(Opcodes.OpcodesIn.GetRoomModelData, Rooms.GetRoomModeldata);
             Packets.Add(Opcodes.OpcodesIn.GetEndEnterRoom, Rooms.GetEndEnterRoom);
             Packets.Add(Opcodes.OpcodesIn.GetTalentsMeter, Others.GetCitizenship);
+            Packets.Add(Opcodes.OpcodesIn.Move, Rooms.Move);
+            Packets.Add(Opcodes.OpcodesIn.GetRoomGroupData, Rooms.GetGroupData);
+            Packets.Add(Opcodes.OpcodesIn.GetInventory, new Action<Message,Session>(Users.GetInventory));
+            Packets.Add(Opcodes.OpcodesIn.GetInventoryBadges, new Action<Message, Session>(Users.GetInventoryBadges));
+            Packets.Add(Opcodes.OpcodesIn.UpdateBadges, Users.UpdateBadges);
+            Packets.Add(Opcodes.OpcodesIn.Talk, Rooms.Talk);
+            Packets.Add(Opcodes.OpcodesIn.GetInventoryBots, Rooms.GetInventoryBots);
+            Packets.Add(Opcodes.OpcodesIn.GetRoomUserBadges, Rooms.GetRoomUserBadges);
+            Packets.Add(Opcodes.OpcodesIn.GetAchievementList, Users.GetAchievements);
         }
 
         public void Handle(Message Msg, Session Session)
@@ -50,7 +59,6 @@ namespace Ferri_Emulator.Messages
                 return;
             }
 
-            Engine.Logging.WriteTagLine(Header.ToString(), "Registered!");
             Packets[Header].Invoke(Msg, Session);
         }
     }

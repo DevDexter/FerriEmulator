@@ -50,6 +50,7 @@ namespace Ferri.Kernel.Network
         public HabboCrypto Crypto = new HabboCrypto(Engine.N, Engine.E, Engine.D);
         public Ferri_Emulator.Database.Mappings.users User;
         public Ferri_Emulator.Database.Mappings.rooms Room;
+        public System.Threading.Thread MoveThread;
 
         public void WriteComposer(ServerMessage Msg)
         {

@@ -86,6 +86,46 @@ namespace Ferri_Emulator.Messages.Requests
                 fuseResponse.Append<bool>(true);
                 fuseResponse.Append<int>(0);
                 fuseResponse.Send(Session);
+
+                fuseResponse.New(108);
+                fuseResponse.Append<int>(9); // count? wtf?
+                fuseResponse.Append<string>("CITIZEN");
+                fuseResponse.Append<bool>(true);
+                fuseResponse.Append<string>("");
+                fuseResponse.Append<string>("VOTE_IN_COMPETITIONS");
+                fuseResponse.Append<bool>(true);
+                fuseResponse.Append<string>("");
+                fuseResponse.Append<string>("JUDGE_CHAT_REVIEWS");
+                fuseResponse.Append<bool>(true);
+                fuseResponse.Append<string>("");
+                fuseResponse.Append<string>("FULL_CHAT");
+                fuseResponse.Append<bool>(true);
+                fuseResponse.Append<string>("");
+                fuseResponse.Append<string>("CALL_ON_HELPERS");
+                fuseResponse.Append<bool>(true);
+                fuseResponse.Append<string>("");
+                fuseResponse.Append<string>("TRADE");
+                fuseResponse.Append<bool>(true);
+                fuseResponse.Append<string>("");
+                fuseResponse.Append<string>("USE_GUIDE_TOOL");
+                fuseResponse.Append<bool>(true);
+                fuseResponse.Append<string>("");
+                fuseResponse.Append<string>("SAFE_CHAT");
+                fuseResponse.Append<bool>(true);
+                fuseResponse.Append<string>("");
+                fuseResponse.Append<string>("SAFE_CHAT");
+                fuseResponse.Append<bool>(true);
+                fuseResponse.Append<string>("");
+                fuseResponse.Send(Session);
+
+                Session.User.Emblems = new Habbo_Hotel.Users.Badges.EmblemsManager();
+                Session.User.Emblems.LoadBadges(Session.User.ID);
+                Session.User.MessengerComponent = new Habbo_Hotel.Users.Messenger.MessengerComponent(Session.User.ID);
+
+                fuseResponse.New(Opcodes.OpcodesOut.SendFuserights);
+                fuseResponse.Append<int>(2);
+                fuseResponse.Append<int>(7);
+                fuseResponse.Send(Session);
             }
             catch
             {

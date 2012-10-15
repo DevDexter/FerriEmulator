@@ -31,6 +31,7 @@ namespace Ferri_Emulator.Database.Mappings
         public virtual bool Allow_Rightsoverride { get; set; }
         public virtual int Floorthickness { get; set; }
         public virtual int Wallthickness { get; set; }
+        public virtual int GroupID { get; set; }
 
         internal void SendData(Messages.ServerMessage fuseResponse)
         {

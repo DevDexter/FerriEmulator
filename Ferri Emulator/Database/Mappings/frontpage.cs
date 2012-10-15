@@ -15,5 +15,6 @@ namespace Ferri_Emulator.Database.Mappings
         public virtual int Type { get; set; }
         public virtual int Category_ID { get; set; }
         public virtual bool Recommended { get; set; }
+        public virtual string TypeExtraData { get; set; }
     }
 }

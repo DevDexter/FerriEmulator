@@ -30,8 +30,7 @@ namespace Ferri_Emulator.Habbo_Hotel.Navigator
             while (RowEnum.MoveNext())
             {
                 DataRow Row = (DataRow)RowEnum.Current;
-
-                Frontpage.Add((int)Row["id"], new frontpage()
+                frontpage fp = new frontpage()
                 {
                     ID = (int)Row["id"],
                     Name = Row["name"].ToString(),
@@ -40,8 +39,11 @@ namespace Ferri_Emulator.Habbo_Hotel.Navigator
                     Category_ID = (int)Row["category_id"],
                     Image = Row["image"].ToString(),
                     Recommended = (Row["recommended"].ToString() == "1"),
-                    Type = int.Parse(Row["type"].ToString())
-                });
+                    Type = int.Parse(Row["type"].ToString()),
+                    TypeExtraData = Row["typeextradata"].ToString()
+                };
+
+                Frontpage.Add(fp.ID, fp);
             }
 
             DateTime End = DateTime.Now;

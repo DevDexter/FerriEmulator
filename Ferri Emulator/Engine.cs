@@ -14,6 +14,7 @@ using Ferri_Emulator.Messages;
 using Ferri_Encryption;
 using Ferri.Kernel.Network;
 using Ferri_Emulator.Habbo_Hotel;
+using Ferri_Emulator.Utilities;
 
 namespace Ferri_Emulator
 {
@@ -28,6 +29,7 @@ namespace Ferri_Emulator
         public static SocketSystem Network;
         public static RemoteNetwork Remote;
         public static PacketHandler Packethandler = new PacketHandler();
+        public static HashString PublicHash;
 
         public static Habbo_Hotel.Habbo_Hotel GetHabboHotel = new Habbo_Hotel.Habbo_Hotel();
 

@@ -52,6 +52,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -63,17 +64,32 @@
     <Compile Include="Connections\RemoteNetwork.cs" />
     <Compile Include="Core\Configuration.cs" />
     <Compile Include="Core\Logging.cs" />
+    <Compile Include="Database\Mappings\catalogitems.cs" />
+    <Compile Include="Database\Mappings\catalogpages.cs" />
     <Compile Include="Database\Mappings\frontpage.cs" />
+    <Compile Include="Database\Mappings\furniture.cs" />
+    <Compile Include="Database\Mappings\groups.cs" />
     <Compile Include="Database\Mappings\rooms.cs" />
     <Compile Include="Database\Mappings\users.cs" />
     <Compile Include="Database\MySQLManager.cs" />
     <Compile Include="Engine.cs" />
+    <Compile Include="Habbo Hotel\Achievements\Achievement.cs" />
+    <Compile Include="Habbo Hotel\Achievements\AchievementManager.cs" />
+    <Compile Include="Habbo Hotel\Catalogue\CatalogManager.cs" />
+    <Compile Include="Habbo Hotel\Groups\FluentGroups.cs" />
     <Compile Include="Habbo Hotel\Habbo_Hotel.cs" />
+    <Compile Include="Habbo Hotel\Items\ItemDefinition.cs" />
     <Compile Include="Habbo Hotel\Navigator\Frontpage.cs" />
     <Compile Include="Habbo Hotel\Rooms\FluentRooms.cs" />
     <Compile Include="Habbo Hotel\Rooms\RoomModel.cs" />
+    <Compile Include="Habbo Hotel\Users\Badges\Emblems.cs" />
+    <Compile Include="Habbo Hotel\Users\Badges\EmblemsManager.cs" />
     <Compile Include="Habbo Hotel\Users\FluentUsers.cs" />
+    <Compile Include="Habbo Hotel\Users\Inventory\Inventory.cs" />
+    <Compile Include="Habbo Hotel\Users\Messenger\Messenger.cs" />
+    <Compile Include="Habbo Hotel\Users\Messenger\MessengerComponent.cs" />
     <Compile Include="Habbo Hotel\Users\RoomUser.cs" />
+    <Compile Include="Habbo Hotel\Users\UserItems.cs" />
     <Compile Include="Messages\ClientMessage.cs" />
     <Compile Include="Messages\Opcodes.cs" />
     <Compile Include="Messages\PacketHandler.cs" />
@@ -84,12 +100,17 @@
     <Compile Include="Messages\Requests\Rooms.cs" />
     <Compile Include="Messages\Requests\Users.cs" />
     <Compile Include="Messages\ServerMessage.cs" />
+    <Compile Include="Pathfinding\Coord.cs" />
+    <Compile Include="Pathfinding\PathFinder.cs" />
+    <Compile Include="Pathfinding\TileState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SS\BufferPool.cs" />
     <Compile Include="SS\Session.cs" />
     <Compile Include="SS\SocketSystem.cs" />
     <Compile Include="SS\TPool.cs" />
+    <Compile Include="Utilities\Chat.cs" />
     <Compile Include="Utilities\HabboEncoding.cs" />
+    <Compile Include="Utilities\HashString.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ferri Encryption\Ferri Encryption.csproj">
@@ -97,6 +118,7 @@
       <Name>Ferri Encryption</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
