@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ferri.Kernel.Network;
+using Ferri_Emulator.Communication;
 
 namespace Ferri_Emulator.Database.Mappings
 {
@@ -37,7 +37,7 @@ namespace Ferri_Emulator.Database.Mappings
         {
             foreach (Session Session in Engine.RoomsLoaded[ID])
             {
-                Session.WriteComposer(fuseResponse);
+                Session.SendPacket(fuseResponse);
             }
         }
     }

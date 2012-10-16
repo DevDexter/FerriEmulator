@@ -1,10 +1,10 @@
-﻿using Ferri.Kernel.Network;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ferri_Emulator.Communication;
 
 namespace Ferri.Kernel.Pathfinding
 {

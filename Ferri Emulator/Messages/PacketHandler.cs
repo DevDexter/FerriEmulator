@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Ferri_Emulator.Messages.Requests;
 using System.Reflection;
-using Ferri.Kernel.Network;
+using Ferri_Emulator.Communication;
 
 namespace Ferri_Emulator.Messages
 {

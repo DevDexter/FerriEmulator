@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ferri.Kernel.Network;
-using Ferri_Emulator.SS;
+using Ferri_Emulator.Communication;
 
 namespace Ferri_Emulator.Messages.Requests
 {

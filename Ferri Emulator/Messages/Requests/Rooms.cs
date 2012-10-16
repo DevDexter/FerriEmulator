@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ferri.Kernel.Network;
-using Ferri_Emulator.SS;
 using Ferri_Emulator.Habbo_Hotel.Rooms;
 using Ferri_Emulator.Habbo_Hotel.Users;
 using System.Threading;
 using Ferri.Kernel.Pathfinding;
 using Ferri_Emulator.Utilities;
+using Ferri_Emulator.Communication;
 
 namespace Ferri_Emulator.Messages.Requests
 {

@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 
 using Ferri_Encryption;
-using Ferri.Kernel.Network;
-using Ferri_Emulator.SS;
 using Ferri_Emulator.Habbo_Hotel.Users;
+using Ferri_Emulator.Communication;
 
 namespace Ferri_Emulator.Messages.Requests
 {
@@ -18,6 +17,7 @@ namespace Ferri_Emulator.Messages.Requests
 
         public static void InitCrypto(Message Msg, Session Session)
         {
+            Session.Crypto = new HabboCrypto(Engine.N, Engine.E, Engine.D);
             String Token = new BigInteger(DiffieHellman.GenerateRandomHexString(15), 16).ToString();
 
             Engine.BannerTokenValues.Add(Token, Session.Crypto.GetPrime.ToString() + ":" + Session.Crypto.GetGenerator.ToString());
@@ -25,7 +25,7 @@ namespace Ferri_Emulator.Messages.Requests
             fuseResponse.New(Opcodes.OpcodesOut.SendToken);
             fuseResponse.Append<string>(Token);
             fuseResponse.Append<bool>(false);
-            Session.WriteComposer(fuseResponse);
+            Session.SendPacket(fuseResponse);
         }
 
         public static void InitRC4(Message Msg, Session Session)
@@ -37,7 +37,7 @@ namespace Ferri_Emulator.Messages.Requests
 
             fuseResponse.New(Opcodes.OpcodesOut.SendPublicKey);
             fuseResponse.Append<string>(Session.Crypto.GetPublicKey.ToString());
-            Session.WriteComposer(fuseResponse);
+            Session.SendPacket(fuseResponse);
         }
 
         public static void AuthenticateUser(Message Msg, Session Session)
@@ -71,7 +71,7 @@ namespace Ferri_Emulator.Messages.Requests
                 fuseResponse.Append<int>(0);
                 fuseResponse.Send(Session);
 
-                Session.SendBroadcast("Welcome to Ferri, " + Session.User.Username);
+                Session.SendAlert("Welcome to Ferri, " + Session.User.Username);
 
                 fuseResponse.New(2367);
                 fuseResponse.Append<int>(-1);

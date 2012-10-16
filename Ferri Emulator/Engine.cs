@@ -12,9 +12,9 @@ using Ferri_Emulator.Connections;
 using System.IO;
 using Ferri_Emulator.Messages;
 using Ferri_Encryption;
-using Ferri.Kernel.Network;
 using Ferri_Emulator.Habbo_Hotel;
 using Ferri_Emulator.Utilities;
+using Ferri_Emulator.Communication;
 
 namespace Ferri_Emulator
 {
@@ -26,7 +26,7 @@ namespace Ferri_Emulator
         public static Logging Logging = new Logging();
         public static MySQLManager dbManager = new MySQLManager();
         public static ISession dbSession;
-        public static SocketSystem Network;
+        public static ServerSocket Network;
         public static RemoteNetwork Remote;
         public static PacketHandler Packethandler = new PacketHandler();
         public static HashString PublicHash;
@@ -74,8 +74,21 @@ namespace Ferri_Emulator
 
             GetHabboHotel.LoadHH();
 
-            Network = new SocketSystem();
-            Network.Serialize(System.Net.IPAddress.Any, 30000, 15, 10000);
+            ServerSocketSettings Settings = new ServerSocketSettings()
+            {
+                Backlog = 10,
+                BufferSize = 512,
+                Endpoint = new System.Net.IPEndPoint(System.Net.IPAddress.Any, 30000),
+                MaxConnections = 10000,
+                MaxSimultaneousAcceptOps = 15,
+                NumOfSaeaForRec = 10000,
+                NumOfSaeaForSend = 20000
+            };
+
+            Network = new ServerSocket(Settings);
+            Network.Init();
+            Network.StartListen();
+
             Remote = new RemoteNetwork(30001);
             Logging.WriteTagLine("Ready", "Initialized FerriEmulator, ready for connections!");
 

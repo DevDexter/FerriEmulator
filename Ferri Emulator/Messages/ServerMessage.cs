@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ferri.Kernel.Network;
+using Ferri_Emulator.Communication;
 
 namespace Ferri_Emulator.Messages
 {
@@ -135,7 +135,7 @@ namespace Ferri_Emulator.Messages
 
         public void Send(Session Session)
         {
-            Session.WriteComposer(this);
+            Session.SendPacket(this);
         }
 
         public int GetBitLen()
